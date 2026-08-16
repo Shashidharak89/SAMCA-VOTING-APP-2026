@@ -161,7 +161,7 @@ export default function Vote({ userEmail, token, onVoted }) {
       <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl p-8 text-center max-w-md w-full border border-primary-100 transform transition-all duration-300">
           <div className="mb-6">
-            <div className="w-20 h-20 bg-accent-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-accent-500/30">
+            <div className="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/30">
               <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
               </svg>
@@ -172,7 +172,7 @@ export default function Vote({ userEmail, token, onVoted }) {
               <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Voted as</p>
               <p className="text-sm font-bold text-gray-800">{userEmail}</p>
             </div>
-            <p className="text-sm text-gray-500">Redirecting to login in <span className="font-bold text-accent-600">{redirectSeconds}s</span>…</p>
+            <p className="text-sm text-gray-500">Redirecting to login in <span className="font-bold text-emerald-600">{redirectSeconds}s</span>…</p>
           </div>
         </div>
       </div>
@@ -230,7 +230,7 @@ export default function Vote({ userEmail, token, onVoted }) {
                 </div>
                 <div className="w-full sm:w-64 bg-gray-200 h-2.5 rounded-full overflow-hidden">
                   <div
-                    className="bg-gradient-to-r from-accent-500 to-accent-600 h-full transition-all duration-300 rounded-full"
+                    className="bg-gradient-to-r from-emerald-500 to-accent-600 h-full transition-all duration-300 rounded-full"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -283,7 +283,6 @@ export default function Vote({ userEmail, token, onVoted }) {
             const isExpanded = !!expandedPositions[position];
             const selectedCandidateId = votes[position];
             const posCandidates = candidates.filter((c) => c.position === position);
-            const selectedCandidate = posCandidates.find((c) => c._id === selectedCandidateId);
             const isMissing = !!validationErrors[position];
 
             const formattedPositionName = position.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
@@ -292,11 +291,11 @@ export default function Vote({ userEmail, token, onVoted }) {
               <div
                 key={position}
                 ref={(el) => (positionRefs.current[position] = el)}
-                className={`bg-white rounded-2xl border transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md ${
+                className={`bg-white rounded-2xl border transition-all duration-300 overflow-hidden shadow-sm hover:shadow-md ${
                   isMissing
                     ? 'border-red-400 ring-2 ring-red-200'
                     : selectedCandidateId
-                    ? 'border-emerald-200 bg-emerald-50/10'
+                    ? 'border-emerald-300 bg-emerald-50/20'
                     : 'border-gray-200'
                 }`}
               >
@@ -304,13 +303,17 @@ export default function Vote({ userEmail, token, onVoted }) {
                 <button
                   type="button"
                   onClick={() => togglePositionExpand(position)}
-                  className={`w-full p-4 sm:p-5 flex items-center justify-between text-left transition-colors duration-150 ${
-                    selectedCandidateId ? 'bg-emerald-50/40 hover:bg-emerald-50/80' : 'bg-gray-50/80 hover:bg-gray-100/80'
+                  className={`w-full p-4 sm:p-5 flex items-center justify-between text-left transition-colors duration-300 ${
+                    selectedCandidateId ? 'bg-emerald-50/70 hover:bg-emerald-100/70' : 'bg-gray-50/80 hover:bg-gray-100/80'
                   }`}
                 >
                   <div className="flex items-center space-x-3 min-w-0">
-                    <span className="w-7 h-7 rounded-full bg-primary-800 text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
-                      {index + 1}
+                    <span
+                      className={`w-7 h-7 rounded-full text-xs font-bold flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+                        selectedCandidateId ? 'bg-emerald-600 text-white shadow-sm' : 'bg-primary-800 text-white'
+                      }`}
+                    >
+                      {selectedCandidateId ? '✓' : index + 1}
                     </span>
                     <div className="truncate">
                       <h3 className="text-base sm:text-lg font-bold text-gray-900 truncate">
@@ -322,14 +325,14 @@ export default function Vote({ userEmail, token, onVoted }) {
                     </div>
                   </div>
 
-                  {/* Header Right Status Badge & Toggle Icon */}
+                  {/* Header Right Status Badge & Toggle Icon (NO CANDIDATE NAME SHOWN - JUST GREEN 'VOTED' BADGE) */}
                   <div className="flex items-center space-x-3 flex-shrink-0 ml-2">
-                    {selectedCandidate ? (
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                        <svg className="w-3.5 h-3.5 mr-1 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    {selectedCandidateId ? (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white shadow-sm border border-emerald-700 tracking-wide">
+                        <svg className="w-3.5 h-3.5 mr-1 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
-                        <span className="truncate max-w-[120px] sm:max-w-[180px]">Voted: {selectedCandidate.name}</span>
+                        Voted
                       </span>
                     ) : (
                       <span
@@ -343,10 +346,16 @@ export default function Vote({ userEmail, token, onVoted }) {
                       </span>
                     )}
 
-                    {/* Chevron Indicator */}
-                    <div className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 shadow-sm">
+                    {/* Chevron Indicator with smooth rotation */}
+                    <div
+                      className={`w-8 h-8 rounded-full border flex items-center justify-center shadow-sm transition-colors duration-300 ${
+                        selectedCandidateId
+                          ? 'bg-emerald-100 border-emerald-300 text-emerald-800'
+                          : 'bg-white border-gray-200 text-gray-500'
+                      }`}
+                    >
                       <svg
-                        className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'transform rotate-180' : ''}`}
+                        className={`w-4 h-4 transition-transform duration-300 ease-in-out ${isExpanded ? 'transform rotate-180' : ''}`}
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -367,92 +376,98 @@ export default function Vote({ userEmail, token, onVoted }) {
                   </div>
                 )}
 
-                {/* Expanded Candidates Section (Compact Candidates List) */}
-                {isExpanded && (
-                  <div className="p-4 sm:p-5 bg-white border-t border-gray-100 transition-all duration-300">
-                    {posCandidates.length === 0 ? (
-                      <div className="text-center py-6 text-sm text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-                        No candidates registered for this position yet.
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                        {posCandidates.map((c) => {
-                          const isSelected = selectedCandidateId === c._id;
-                          return (
-                            <label
-                              key={c._id}
-                              className={`flex flex-col items-center p-3 rounded-xl border-2 transition-all duration-200 cursor-pointer relative group text-center ${
-                                isSelected
-                                  ? 'border-accent-500 bg-accent-50/70 ring-2 ring-accent-400/40 shadow-md transform scale-[1.02]'
-                                  : 'border-gray-200 bg-white hover:border-accent-300 hover:bg-gray-50/60 shadow-sm'
-                              }`}
-                            >
-                              <input
-                                type="radio"
-                                name={position}
-                                value={c._id}
-                                checked={isSelected}
-                                onChange={() => handleVoteChange(position, c._id)}
-                                className="hidden"
-                              />
-
-                              {/* Radio Selection Icon at top right */}
-                              <div
-                                className={`absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center transition-all ${
+                {/* Smooth Animated Collapsible Candidates Section */}
+                <div
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                    isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="p-4 sm:p-5 bg-white border-t border-gray-100">
+                      {posCandidates.length === 0 ? (
+                        <div className="text-center py-6 text-sm text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                          No candidates registered for this position yet.
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                          {posCandidates.map((c) => {
+                            const isSelected = selectedCandidateId === c._id;
+                            return (
+                              <label
+                                key={c._id}
+                                className={`flex flex-col items-center p-3 rounded-xl border-2 transition-all duration-200 cursor-pointer relative group text-center ${
                                   isSelected
-                                    ? 'bg-accent-500 text-white shadow-sm'
-                                    : 'border-2 border-gray-300 group-hover:border-accent-400 bg-white'
+                                    ? 'border-emerald-500 bg-emerald-50/70 ring-2 ring-emerald-400/40 shadow-md transform scale-[1.02]'
+                                    : 'border-gray-200 bg-white hover:border-emerald-300 hover:bg-gray-50/60 shadow-sm'
                                 }`}
                               >
-                                {isSelected && (
-                                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                                  </svg>
-                                )}
-                              </div>
+                                <input
+                                  type="radio"
+                                  name={position}
+                                  value={c._id}
+                                  checked={isSelected}
+                                  onChange={() => handleVoteChange(position, c._id)}
+                                  className="hidden"
+                                />
 
-                              {/* Candidate Avatar (Reduced Small Size) */}
-                              <div className="relative mb-2 mt-1">
-                                {c.photoUrl ? (
-                                  <img
-                                    src={c.photoUrl}
-                                    alt={c.name}
-                                    className={`w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full border-2 transition-all shadow-sm ${
-                                      isSelected ? 'border-accent-500 ring-2 ring-accent-300' : 'border-gray-200'
-                                    }`}
-                                    loading="lazy"
-                                  />
-                                ) : (
-                                  <div
-                                    className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-lg font-bold border-2 transition-all ${
-                                      isSelected
-                                        ? 'bg-accent-100 text-accent-800 border-accent-500'
-                                        : 'bg-gray-100 text-gray-600 border-gray-200'
-                                    }`}
-                                  >
-                                    {c.name ? c.name.charAt(0).toUpperCase() : '?'}
-                                  </div>
-                                )}
-                              </div>
+                                {/* Radio Selection Icon at top right */}
+                                <div
+                                  className={`absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center transition-all ${
+                                    isSelected
+                                      ? 'bg-emerald-600 text-white shadow-sm'
+                                      : 'border-2 border-gray-300 group-hover:border-emerald-400 bg-white'
+                                  }`}
+                                >
+                                  {isSelected && (
+                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                  )}
+                                </div>
 
-                              {/* Candidate Name */}
-                              <span className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2 leading-snug">
-                                {c.name}
-                              </span>
+                                {/* Candidate Avatar (Reduced Small Size) */}
+                                <div className="relative mb-2 mt-1">
+                                  {c.photoUrl ? (
+                                    <img
+                                      src={c.photoUrl}
+                                      alt={c.name}
+                                      className={`w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full border-2 transition-all shadow-sm ${
+                                        isSelected ? 'border-emerald-500 ring-2 ring-emerald-300' : 'border-gray-200'
+                                      }`}
+                                      loading="lazy"
+                                    />
+                                  ) : (
+                                    <div
+                                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-lg font-bold border-2 transition-all ${
+                                        isSelected
+                                          ? 'bg-emerald-100 text-emerald-800 border-emerald-500'
+                                          : 'bg-gray-100 text-gray-600 border-gray-200'
+                                      }`}
+                                    >
+                                      {c.name ? c.name.charAt(0).toUpperCase() : '?'}
+                                    </div>
+                                  )}
+                                </div>
 
-                              {/* Selection status badge */}
-                              {isSelected && (
-                                <span className="mt-1.5 inline-block px-2 py-0.5 bg-accent-600 text-white text-[10px] font-bold rounded-full uppercase tracking-wider">
-                                  Selected
+                                {/* Candidate Name */}
+                                <span className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2 leading-snug">
+                                  {c.name}
                                 </span>
-                              )}
-                            </label>
-                          );
-                        })}
-                      </div>
-                    )}
+
+                                {/* Selection status badge */}
+                                {isSelected && (
+                                  <span className="mt-1.5 inline-block px-2 py-0.5 bg-emerald-600 text-white text-[10px] font-bold rounded-full uppercase tracking-wider">
+                                    Selected
+                                  </span>
+                                )}
+                              </label>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}

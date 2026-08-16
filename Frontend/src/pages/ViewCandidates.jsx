@@ -48,72 +48,66 @@ export default function ViewCandidates() {
 		);
 	}
 
-		// If positions is an array of objects, sort by 'order' property
-		let sortedPositions = positions;
-		if (positions.length && typeof positions[0] === 'object' && positions[0].order !== undefined) {
-			sortedPositions = [...positions].sort((a, b) => a.order - b.order);
-		}
+	// If positions is an array of objects, sort by 'order' property
+	let sortedPositions = positions;
+	if (positions.length && typeof positions[0] === 'object' && positions[0].order !== undefined) {
+		sortedPositions = [...positions].sort((a, b) => a.order - b.order);
+	}
 
-		return (
-			<div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 p-4">
-				<div className="mx-auto">
-					<div className="bg-white rounded-xl shadow-2xl overflow-hidden border border-primary-100">
-						<div className="bg-gradient-to-r from-primary-800 to-primary-700 text-white p-6 flex flex-col items-center">
-							<img src="/samca_logo.jpeg" className="w-16 h-16 rounded-full object-cover shadow-md border-2 border-white/30 mb-3" alt="SAMCA Logo" />
-							<h2 className="text-3xl text-white font-bold text-center">Candidate List</h2>
-							<p className="text-center mt-2 opacity-90">SAMCA Election 2026</p>
-						</div>
-						<div className="p-6 grid gap-6 max-w-5xl mx-auto">
-							{sortedPositions.map((positionObj) => {
-								// If positions is array of strings, fallback to old behavior
-								const position = typeof positionObj === 'object' ? positionObj.name : positionObj;
-								const posCandidates = candidates.filter((c) => c.position === position);
-								const formattedPositionName = position.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-								
-								return (
-									<div key={position} className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
-										<div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-3">
-											<h4 className="text-lg font-bold text-gray-900">
-												{formattedPositionName}
-											</h4>
-											<span className="text-xs font-semibold px-2.5 py-1 bg-primary-100 text-primary-800 rounded-full">
-												{posCandidates.length} Candidates
-											</span>
+	return (
+		<div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 p-4 sm:p-6">
+			<div className="max-w-6xl mx-auto">
+				<div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-primary-100">
+					<div className="bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 text-white p-8 flex flex-col items-center">
+						<img src="/samca_logo.jpeg" className="w-20 h-20 rounded-full object-cover shadow-lg border-2 border-white/30 mb-3" alt="SAMCA Logo" />
+						<h2 className="text-3xl text-white font-extrabold text-center">Candidate List</h2>
+						<p className="text-center mt-2 text-primary-200 text-sm">SAMCA Election 2026</p>
+					</div>
+					<div className="p-6 sm:p-8 grid gap-8">
+						{sortedPositions.map((positionObj) => {
+							const position = typeof positionObj === 'object' ? positionObj.name : positionObj;
+							const posCandidates = candidates.filter((c) => c.position === position);
+							const formattedPositionName = position.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+							
+							return (
+								<div key={position} className="bg-primary-50/70 rounded-2xl p-6 border-l-4 border-primary-800 shadow-sm">
+									<h4 className="text-2xl font-bold text-gray-900 mb-6 capitalize">
+										{formattedPositionName}
+									</h4>
+									{posCandidates.length === 0 ? (
+										<p className="text-sm text-gray-500 italic">No candidates registered for this position yet.</p>
+									) : (
+										<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+											{posCandidates.map((c) => (
+												<div
+													key={c._id}
+													className="flex flex-col items-center p-6 rounded-2xl border-2 border-primary-200 shadow-md bg-white transition-transform hover:scale-[1.02] hover:shadow-lg text-center"
+												>
+													{c.photoUrl ? (
+														<img
+															src={c.photoUrl}
+															alt={c.name}
+															className="w-48 h-48 sm:w-52 sm:h-52 object-cover rounded-full border-4 border-primary-200 mb-4 shadow-md"
+															loading="lazy"
+														/>
+													) : (
+														<div className="w-48 h-48 sm:w-52 sm:h-52 rounded-full bg-primary-100 text-primary-800 font-extrabold flex items-center justify-center text-5xl mb-4 border-4 border-primary-200 shadow-md">
+															{c.name ? c.name.charAt(0).toUpperCase() : '?'}
+														</div>
+													)}
+													<span className="text-gray-900 font-bold text-xl text-center">
+														{c.name}
+													</span>
+												</div>
+											))}
 										</div>
-										{posCandidates.length === 0 ? (
-											<p className="text-xs text-gray-500 italic py-2">No candidates for this position.</p>
-										) : (
-											<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-												{posCandidates.map((c) => (
-													<div
-														key={c._id}
-														className="flex flex-col items-center p-3 rounded-xl border border-gray-200 shadow-sm bg-white hover:shadow-md transition-all text-center"
-													>
-														{c.photoUrl ? (
-															<img
-																src={c.photoUrl}
-																alt={c.name}
-																className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full border-2 border-primary-200 mb-2 shadow-sm"
-																loading="lazy"
-															/>
-														) : (
-															<div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-primary-100 text-primary-800 font-bold flex items-center justify-center text-lg mb-2 border-2 border-primary-200">
-																{c.name ? c.name.charAt(0).toUpperCase() : '?'}
-															</div>
-														)}
-														<span className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2">
-															{c.name}
-														</span>
-													</div>
-												))}
-											</div>
-										)}
-									</div>
-								);
-							})}
-						</div>
+									)}
+								</div>
+							);
+						})}
 					</div>
 				</div>
 			</div>
-		);
+		</div>
+	);
 }

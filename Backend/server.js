@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 
@@ -12,9 +13,8 @@ const app = express();
 // BASIC MIDDLEWARE
 // ============================================================
 
-// IMPORTANT:
-// CORS is NOT configured here.
-// AWS Lambda Function URL handles CORS.
+// Enable CORS for cross-origin requests (e.g. Frontend on localhost:5173)
+app.use(cors());
 
 // File uploads
 app.use(fileUpload);

@@ -69,8 +69,8 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-light-bg">
-      {/* Hide navbar on voting page for distraction-free full screen */}
-      {location.pathname !== "/vote" && (
+      {/* Hide navbar on voting pages for distraction-free full screen */}
+      {!["/vote", "/login"].includes(location.pathname) && (
         <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-primary-100 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
@@ -130,7 +130,7 @@ function App() {
       )}
 
       {/* Mobile Navigation Drawer */}
-      {isMobileMenuOpen && location.pathname !== "/vote" && (
+      {isMobileMenuOpen && !["/vote", "/login"].includes(location.pathname) && (
         <div className="md:hidden">
           <div className="fixed inset-0 z-40 bg-black bg-opacity-50" onClick={() => setIsMobileMenuOpen(false)}></div>
           <div className="fixed top-16 left-0 right-0 z-50 bg-white shadow-lg border-b border-primary-100">
@@ -221,7 +221,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      {location.pathname !== "/vote" && (
+      {!["/vote", "/login"].includes(location.pathname) && (
         <footer className="bg-primary-800 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="flex flex-col md:flex-row justify-between items-center">

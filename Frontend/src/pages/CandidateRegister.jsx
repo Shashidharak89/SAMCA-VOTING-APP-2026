@@ -8,7 +8,6 @@ const POSITION_API = `${API_BASE}/position`;
 export default function CandidateRegister() {
   // Replaced gender with phone field (required)
   const [form, setForm] = useState({ name: "", usn: "", email: "", position: "", phone: "" });
-  const [usnError, setUsnError] = useState("");
   const [photo, setPhoto] = useState(null);
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -40,42 +39,26 @@ export default function CandidateRegister() {
     }
   };
 
-  const USN_REGEX = /^nu25mca(?:[1-9]|[1-9][0-9]|1[0-7][0-9]|180)$/i; // 1-180 inclusive
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const next = { ...form, [name]: value };
-    if (name === 'usn') {
-      // live normalize to lowercase without spaces
-      next.usn = value.toLowerCase().trim();
-      if (next.usn && !USN_REGEX.test(next.usn)) {
-        setUsnError('USN must start with nu25mca and end with a number 1-180 (e.g. nu25mca12)');
-      } else {
-        setUsnError('');
-      }
-    }
-    setForm(next);
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.position) return setMessage("Please select a position");
-    if (!form.usn || !USN_REGEX.test(form.usn)) {
-      setUsnError('Enter a valid USN in range nu25mca1 - nu25mca180');
-      return setMessage('Please fix the highlighted errors.');
-    }
+    if (!form.usn.trim()) return setMessage("Please enter USN");
     setMessage("");
     setSubmitting(true);
     try {
       const fd = new FormData();
-  Object.entries(form).forEach(([k, v]) => v && fd.append(k, v)); // includes phone now
+      Object.entries(form).forEach(([k, v]) => v && fd.append(k, v));
       if (photo) fd.append("photo", photo);
       const res = await fetch(`${API_URL}/register`, { method: "POST", body: fd });
       const data = await res.json();
       if (res.ok) {
         setMessage("Registered successfully and pending approval.");
-  setForm({ name: "", usn: "", email: "", position: "", phone: "" });
-  setUsnError('');
+        setForm({ name: "", usn: "", email: "", position: "", phone: "" });
         setPhoto(null);
       } else setMessage(data.message || "Error registering candidate.");
     } catch (err) {
@@ -111,11 +94,9 @@ export default function CandidateRegister() {
                 value={form.usn}
                 onChange={handleChange}
                 required
-                className={`input-field mt-1 ${usnError ? 'border-red-500 focus:ring-red-500' : ''}`}
-                placeholder="nu25mca***"
-                aria-invalid={!!usnError}
+                className="input-field mt-1"
+                placeholder="Enter USN"
               />
-              {usnError && <p className="mt-1 text-xs text-red-600">{usnError}</p>}
             </div>
           </div>
           <div className="grid sm:grid-cols-2 gap-5">

@@ -107,6 +107,7 @@ export default function CandidateRegister() {
                 type="email"
                 value={form.email}
                 onChange={handleChange}
+                placeholder="username@nmamit.in"
                 required
                 className="input-field mt-1"
               />

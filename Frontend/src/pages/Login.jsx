@@ -37,8 +37,8 @@ export default function Login({ onLogin }) {
     fetchVotingStatus();
   }, []);
 
-  // Allowed pattern: email starting with nu26mca and ending with @nmamit.in
-  const emailRegex = /^nu26mca.*@nmamit\.in$/i;
+  // Allowed pattern: email ending with @nmamit.in
+  const emailRegex = /^[^\s@]+@nmamit\.in$/i;
 
   const validateEmail = (val) => {
     if (!val) return true; // don't show error on empty
@@ -154,7 +154,7 @@ export default function Login({ onLogin }) {
               <label className="block text-sm font-medium text-text-primary mb-2">College Email</label>
               <input
                 type="email"
-                placeholder="nu26mca...@nmamit.in"
+                placeholder="username@nmamit.in"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -165,7 +165,7 @@ export default function Login({ onLogin }) {
               />
               {!emailValid && (
                 <p className="mt-1 text-xs font-medium text-red-600">
-                  Use college valid email id
+                  Use valid @nmamit.in email id
                 </p>
               )}
             </div>

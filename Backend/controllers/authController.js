@@ -18,9 +18,9 @@ exports.requestOTP = async (req, res) => {
   }
 
   const normalizedEmail = email.trim().toLowerCase();
-  if (!/^nu26mca.*@nmamit\.in$/i.test(normalizedEmail)) {
+  if (!/^[^\s@]+@nmamit\.in$/i.test(normalizedEmail)) {
     console.log("[auth][requestOTP] 400 invalid email format", { email });
-    return res.status(400).json({ message: "Use college valid email id" });
+    return res.status(400).json({ message: "Use valid @nmamit.in email id" });
   }
 
   // Check votingEnabled flag

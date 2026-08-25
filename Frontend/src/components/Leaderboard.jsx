@@ -14,8 +14,17 @@ const Leaderboard = () => {
   useEffect(() => {
     isMounted.current = true;
     fetchLeaderboard();
+
+    // Auto refresh every 1 minute (60,000ms) when the admin is on the leaderboard page
+    const intervalId = setInterval(() => {
+      if (isMounted.current) {
+        fetchLeaderboard(true);
+      }
+    }, 60000);
+
     return () => {
       isMounted.current = false;
+      clearInterval(intervalId);
     };
   }, []);
 
@@ -88,13 +97,16 @@ const Leaderboard = () => {
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl shadow-sm border border-primary-100">
         <div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-primary-900 tracking-tight">
               Live Position Leaderboard
             </h1>
             <span className="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
               Live Data
+            </span>
+            <span className="bg-blue-50 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full border border-blue-200 hidden sm:inline-flex items-center gap-1">
+              ⏱️ Auto-refreshes every 1 min
             </span>
           </div>
           <p className="text-sm text-text-secondary mt-1">

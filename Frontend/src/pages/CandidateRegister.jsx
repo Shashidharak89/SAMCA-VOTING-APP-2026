@@ -48,6 +48,10 @@ export default function CandidateRegister() {
     e.preventDefault();
     if (!form.position) return setMessage("Please select a position");
     if (!form.usn.trim()) return setMessage("Please enter USN");
+    const emailRegex = /^nu26mca(00[1-9]|0[1-9]\d|1\d\d|200)@nmamit\.in$/i;
+    if (!emailRegex.test(form.email.trim().toLowerCase())) {
+      return setMessage("Email must be in format nu26mca###@nmamit.in (001 to 200)");
+    }
     setMessage("");
     setSubmitting(true);
     try {
@@ -60,9 +64,10 @@ export default function CandidateRegister() {
         setMessage("Registered successfully and pending approval.");
         setForm({ name: "", usn: "", email: "", position: "", phone: "" });
         setPhoto(null);
-      } else setMessage(data.message || "Error registering candidate.");
-    } catch (err) {
-      // eslint-disable-line no-unused-vars
+      } else {
+        setMessage(data.message || "Error registering candidate.");
+      }
+    } catch {
       setMessage("Network error.");
     } finally {
       setSubmitting(false);
@@ -107,7 +112,7 @@ export default function CandidateRegister() {
                 type="email"
                 value={form.email}
                 onChange={handleChange}
-                placeholder="username@nmamit.in"
+                placeholder="nu26mca001@nmamit.in"
                 required
                 className="input-field mt-1"
               />

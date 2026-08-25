@@ -37,8 +37,8 @@ export default function Login({ onLogin }) {
     fetchVotingStatus();
   }, []);
 
-  // Allowed pattern: email ending with @nmamit.in
-  const emailRegex = /^[^\s@]+@nmamit\.in$/i;
+  // Allowed pattern: nu26mca###@nmamit.in where ### ranges from 001 to 200
+  const emailRegex = /^nu26mca(00[1-9]|0[1-9]\d|1\d\d|200)@nmamit\.in$/i;
 
   const validateEmail = (val) => {
     if (!val) return true; // don't show error on empty
@@ -46,9 +46,9 @@ export default function Login({ onLogin }) {
   };
 
   const handleRequestOtp = async (e) => {
-    if (!validateEmail(email)) {
+    e.preventDefault();
+    if (!email || !emailRegex.test(email.trim().toLowerCase())) {
       setEmailValid(false);
-      e.preventDefault();
       return;
     }
     setLoading(true);
@@ -154,18 +154,19 @@ export default function Login({ onLogin }) {
               <label className="block text-sm font-medium text-text-primary mb-2">College Email</label>
               <input
                 type="email"
-                placeholder="username@nmamit.in"
+                placeholder="nu26mca001@nmamit.in"
                 value={email}
                 onChange={(e) => {
-                  setEmail(e.target.value);
-                  setEmailValid(true);
+                  const val = e.target.value;
+                  setEmail(val);
+                  setEmailValid(validateEmail(val));
                 }}
-                className="input-field"
+                className={`input-field ${!emailValid ? 'border-red-500 focus:ring-red-500' : ''}`}
                 required
               />
               {!emailValid && (
                 <p className="mt-1 text-xs font-medium text-red-600">
-                  Use valid @nmamit.in email id
+                  Email must be in format nu26mca###@nmamit.in (001 to 200)
                 </p>
               )}
             </div>

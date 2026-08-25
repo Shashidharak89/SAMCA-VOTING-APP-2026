@@ -89,11 +89,6 @@ function App() {
                 onClick={() => setIsMobileMenuOpen(false)}>
                View Candidates
               </Link>
-                <Link
-                  to="/register"
-                  className="text-text-secondary hover:text-primary-800 font-medium transition-colors">
-                  Register
-                </Link>
                 <Link to="/vote" className="text-text-secondary hover:text-primary-800 font-medium transition-colors">
                   Vote
                 </Link>
@@ -140,12 +135,6 @@ function App() {
                 className="block text-text-secondary hover:text-primary-800 font-medium transition-colors py-2 px-2 rounded-lg hover:bg-primary-50"
                 onClick={() => setIsMobileMenuOpen(false)}>
                View Candidates
-              </Link>
-              <Link
-                to="/register"
-                className="block text-text-secondary hover:text-primary-800 font-medium transition-colors py-2 px-2 rounded-lg hover:bg-primary-50"
-                onClick={() => setIsMobileMenuOpen(false)}>
-                Register
               </Link>
               <Link
                 to="/vote"

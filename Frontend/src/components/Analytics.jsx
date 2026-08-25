@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { adminFetch } from '../utils/adminApi';
 
 const Analytics = () => {
@@ -229,7 +230,15 @@ const Analytics = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Voting Analytics Overview</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+          <h1 className="text-3xl font-bold text-gray-800">Voting Analytics Overview</h1>
+          <Link
+            to="/samca2k26-admin/leaderboard"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold px-4 py-2 rounded-xl shadow hover:brightness-105 transition-all text-sm w-fit"
+          >
+            <span>🏆 View Stick Leaderboard</span>
+          </Link>
+        </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {[...analytics].sort((a, b) => (a.order || 999) - (b.order || 999)).map((positionData, index) => {

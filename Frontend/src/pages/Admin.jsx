@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Analytics from '../components/Analytics';
+import Leaderboard from '../components/Leaderboard';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 const CANDIDATE_API = `${API_BASE}/candidate`;
 const ADMIN_API = `${API_BASE}/admin`;
 
 export default function Admin() {
-  const [view, setView] = useState('settings'); // settings | registration | analytics
+  const [view, setView] = useState('settings'); // settings | registration | leaderboard | analytics
   const [message, setMessage] = useState('');
   const [votingWindow, setVotingWindow] = useState({ start: '', end: '' });
   const [savingWindow, setSavingWindow] = useState(false);
@@ -18,7 +19,7 @@ export default function Admin() {
   const fetchAllCandidates = async () => {
     setLoadingCandidates(true);
     try {
-  const res = await fetch(`${CANDIDATE_API}/all`);
+      const res = await fetch(`${CANDIDATE_API}/all`);
       const data = await res.json();
       if (res.ok) setCandidates(data.candidates);
       else setMessage(data.message || 'Error loading candidates');
@@ -30,14 +31,14 @@ export default function Admin() {
   };
 
   const fetchVotingWindow = async () => {
-  const res = await fetch(`${ADMIN_API}/get-voting-window`);
+    const res = await fetch(`${ADMIN_API}/get-voting-window`);
     if (res.ok) {
       const data = await res.json();
       setVotingWindow({ start: data.start ? data.start.slice(0,16) : '', end: data.end ? data.end.slice(0,16) : '' });
     }
   };
   const fetchRegistrationDueDate = async () => {
-  const res = await fetch(`${ADMIN_API}/get-due-date`);
+    const res = await fetch(`${ADMIN_API}/get-due-date`);
     if (res.ok) {
       const data = await res.json();
       setRegistrationDueDate(data.dueDate ? data.dueDate.slice(0,16) : '');
@@ -48,13 +49,13 @@ export default function Admin() {
 
   const action = async (id, act) => {
     setMessage('');
-  const res = await fetch(`${CANDIDATE_API}/${id}/${act}`, { method: 'POST' });
+    const res = await fetch(`${CANDIDATE_API}/${id}/${act}`, { method: 'POST' });
     const data = await res.json();
     if (res.ok) { setMessage(data.message); fetchAllCandidates(); }
     else setMessage(data.message || 'Error');
   };
   const remove = async (id) => {
-  const res = await fetch(`${CANDIDATE_API}/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${CANDIDATE_API}/${id}`, { method: 'DELETE' });
     const data = await res.json();
     if (res.ok) { setMessage(data.message); fetchAllCandidates(); }
     else setMessage(data.message || 'Error');
@@ -149,7 +150,7 @@ export default function Admin() {
       <aside className="w-60 bg-white border-r flex flex-col">
         <div className="px-4 py-4 font-bold text-lg border-b">Admin Panel</div>
         <nav className="flex-1 p-2 space-y-1 text-sm">
-          {['settings','registration','analytics'].map(key => {
+          {['settings','registration','leaderboard','analytics'].map(key => {
             const label = key.charAt(0).toUpperCase()+key.slice(1);
             const active = view===key;
             return <button key={key} onClick={()=>setView(key)} className={`w-full text-left px-3 py-2 rounded transition ${active?'bg-accent-600 text-white':'hover:bg-accent-50 text-gray-700'}`}>{label}{key==='registration' && candidates.length>0 && <span className="ml-2 text-xs bg-gray-200 rounded px-2">{pending.length} pending</span>}</button>;
@@ -160,8 +161,10 @@ export default function Admin() {
       <main className="flex-1 p-6 overflow-auto">
         {view==='settings' && <SettingsView />}
         {view==='registration' && <RegistrationView />}
+        {view==='leaderboard' && <div className="-m-6"><Leaderboard /></div>}
         {view==='analytics' && <div className="-m-6"><Analytics /></div>}
       </main>
     </div>
   );
 }
+

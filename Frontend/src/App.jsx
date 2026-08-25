@@ -8,6 +8,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminSettings from "./components/AdminSettings";
 import AdminRegistrations from "./components/AdminRegistrations";
 import Analytics from "./components/Analytics";
+import Leaderboard from "./components/Leaderboard";
 import AdminVotedUsers from "./components/AdminVotedUsers";
 import AdminPositions from "./components/AdminPositions";
 import logo from "./assets/samca_logo.png";
@@ -202,6 +203,7 @@ function App() {
             <Route index element={<AdminSettings />} />
             <Route path="positions" element={<AdminPositions />} />
             <Route path="registrations" element={<AdminRegistrations />} />
+            <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="analytics" element={<Analytics />} />
             <Route path="voted-users" element={<AdminVotedUsers />} />
             

@@ -148,3 +148,75 @@ exports.getVotedUsers = async (req, res) => {
     res.status(500).json({ message: "Server error fetching voted users" });
   }
 };
+
+// Get Live Leaderboard analytics for all positions
+exports.getLeaderboard = async (req, res) => {
+  try {
+    const Position = require("../models/Position");
+    const Candidate = require("../models/Candidate");
+    const Vote = require("../models/Vote");
+
+    const positions = await Position.find({ isActive: true }).sort({ order: 1 });
+    const leaderboard = [];
+
+    for (const position of positions) {
+      const positionNames = [position.name, position.displayName];
+      const candidates = await Candidate.find({
+        position: { $in: positionNames },
+        status: "approved",
+      });
+
+      const candidateIds = candidates.map((c) => c._id);
+
+      const voteCounts = await Vote.aggregate([
+        { $unwind: "$votes" },
+        {
+          $match: {
+            "votes.position": { $in: positionNames },
+            "votes.candidate": { $in: candidateIds },
+          },
+        },
+        { $group: { _id: "$votes.candidate", count: { $sum: 1 } } },
+      ]);
+
+      const voteCountMap = {};
+      voteCounts.forEach((vc) => {
+        voteCountMap[vc._id.toString()] = vc.count;
+      });
+
+      const totalVotes = Object.values(voteCountMap).reduce((sum, count) => sum + count, 0);
+
+      const candidateSticks = candidates.map((c) => {
+        const count = voteCountMap[c._id.toString()] || 0;
+        return {
+          candidateId: c._id,
+          name: c.name,
+          usn: c.usn,
+          email: c.email,
+          photoUrl: c.photoUrl || null,
+          voteCount: count,
+          percentage: totalVotes > 0 ? parseFloat(((count / totalVotes) * 100).toFixed(1)) : 0,
+        };
+      });
+
+      // Sort candidates descending by vote count (highest votes first)
+      candidateSticks.sort((a, b) => b.voteCount - a.voteCount);
+
+      leaderboard.push({
+        positionId: position._id,
+        positionName: position.name,
+        displayName: position.displayName,
+        order: position.order,
+        totalVotes,
+        totalCandidates: candidates.length,
+        candidates: candidateSticks,
+      });
+    }
+
+    res.json({ success: true, leaderboard });
+  } catch (error) {
+    console.error("[adminController][getLeaderboard] error:", error);
+    res.status(500).json({ message: "Server error fetching leaderboard data", error: error.message });
+  }
+};
+

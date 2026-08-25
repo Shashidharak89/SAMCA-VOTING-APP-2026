@@ -47,5 +47,6 @@ router.post("/candidate", adminAuth, adminController.addCandidate);
 router.put("/candidate/:id", adminAuth, adminController.editCandidate);
 router.delete("/candidate/:id", adminAuth, adminController.deleteCandidate);
 router.get("/voted-users", adminAuth, adminController.getVotedUsers);
+router.get("/leaderboard", adminAuth, adminController.getLeaderboard);
 
 module.exports = { router, adminAuth };

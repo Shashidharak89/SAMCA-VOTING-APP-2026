@@ -8,6 +8,7 @@ export default function AdminLayout() {
     { path: "/samca2k26-admin", label: "Settings", exact: true },
     { path: "/samca2k26-admin/positions", label: "Positions" },
     { path: "/samca2k26-admin/registrations", label: "Registrations" },
+    { path: "/samca2k26-admin/leaderboard", label: "Leaderboard" },
     { path: "/samca2k26-admin/analytics", label: "Analytics" },
     { path: "/samca2k26-admin/voted-users", label: "Voted Users" },
   ];

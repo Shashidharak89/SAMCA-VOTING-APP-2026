@@ -242,25 +242,12 @@ function Home() {
             <span className="block text-accent-600">Portal 2026</span>
           </h1>
           <p className="text-xl text-text-secondary mb-8 max-w-3xl mx-auto leading-relaxed">
-            Your voice matters. Register as a candidate, explore available positions, and participate in shaping your
+            Your voice matters. Explore available candidates, view position details, and participate in shaping your
             student community's future.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Link
-              to="/register"
-              className="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-xl bg-primary-800 text-white shadow-lg hover:bg-white transform hover:scale-105 transition-all duration-200">
-              <svg className="mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-              Register as Candidate
-            </Link>
             <Link
               to="/vote"
               className="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-xl bg-blue-600 text-white shadow-lg hover:bg-white hover:text-blue-600 transform hover:scale-105 transition-all duration-200">
@@ -274,6 +261,25 @@ function Home() {
               </svg>
               Vote Now
             </Link>
+            <Link
+              to="/view-candidates"
+              className="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-xl bg-primary-800 text-white shadow-lg hover:bg-white hover:text-primary-800 transform hover:scale-105 transition-all duration-200">
+              <svg className="mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+              View Candidates
+            </Link>
           </div>
         </div>
 
@@ -286,13 +292,13 @@ function Home() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-text-primary mb-3">Easy Registration</h3>
+            <h3 className="text-xl font-semibold text-text-primary mb-3">Explore Candidates</h3>
             <p className="text-text-secondary">
-              Simple candidate registration process with photo upload and position selection.
+              Browse approved candidates contesting for key position roles across departments.
             </p>
           </div>
 

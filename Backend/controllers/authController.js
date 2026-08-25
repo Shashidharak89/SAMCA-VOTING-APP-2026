@@ -21,7 +21,7 @@ exports.requestOTP = async (req, res) => {
   const emailRegex = /^nu26mca(00[1-9]|0[1-9]\d|1\d\d|200)@nmamit\.in$/i;
   if (!emailRegex.test(normalizedEmail)) {
     console.log("[auth][requestOTP] 400 invalid email format", { email });
-    return res.status(400).json({ message: "Email must be in format nu26mca###@nmamit.in (number 001 to 200)" });
+    return res.status(400).json({ message: "Please enter a valid college email ID" });
   }
 
   // Check votingEnabled flag

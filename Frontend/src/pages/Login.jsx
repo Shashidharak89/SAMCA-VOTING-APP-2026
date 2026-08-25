@@ -154,7 +154,7 @@ export default function Login({ onLogin }) {
               <label className="block text-sm font-medium text-text-primary mb-2">College Email</label>
               <input
                 type="email"
-                placeholder="nu26mca001@nmamit.in"
+                placeholder="Enter your college email"
                 value={email}
                 onChange={(e) => {
                   const val = e.target.value;
@@ -166,7 +166,7 @@ export default function Login({ onLogin }) {
               />
               {!emailValid && (
                 <p className="mt-1 text-xs font-medium text-red-600">
-                  Email must be in format nu26mca###@nmamit.in (001 to 200)
+                  Please enter a valid college email ID
                 </p>
               )}
             </div>

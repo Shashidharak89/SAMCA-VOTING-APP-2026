@@ -11,7 +11,7 @@ import Analytics from "./components/Analytics";
 import Leaderboard from "./components/Leaderboard";
 import AdminVotedUsers from "./components/AdminVotedUsers";
 import AdminPositions from "./components/AdminPositions";
-import logo from "./assets/samca_logo.png";
+import logo from "/samca.png";
 import ViewCandidates from "./pages/ViewCandidates";
 import { useEffect } from "react";
 
@@ -78,7 +78,7 @@ function App() {
               
               <Link to="/" className="flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden border border-primary-200 shadow-sm">
-                  <img src="/samca_logo.jpeg" className="w-full h-full object-cover" alt="SAMCA Logo" />
+                  <img src="/samca.png" className="w-full h-full object-cover" alt="SAMCA Logo" />
                 </div>
                 <span className="font-bold text-xl text-text-primary">SAMCA Election</span>
               </Link>
@@ -218,7 +218,7 @@ function App() {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="flex items-center space-x-3 mb-4 md:mb-0">
                 <div className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden border border-white/30 shadow-sm">
-                  <img src="/samca_logo.jpeg" className="w-full h-full object-cover" alt="SAMCA Logo" />
+                  <img src="/samca.png" className="w-full h-full object-cover" alt="SAMCA Logo" />
                 </div>
                 <span className="font-semibold">SAMCA Election Portal</span>
               </div>

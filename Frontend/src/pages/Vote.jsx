@@ -200,7 +200,7 @@ export default function Vote({ userEmail, token, onVoted }) {
           <div className="bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 text-white p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 relative">
             <div className="flex items-center space-x-4 text-center sm:text-left">
               <img
-                src="/samca_logo.jpeg"
+                src="/samca.png"
                 className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover shadow-lg border-2 border-white/20"
                 alt="SAMCA Logo"
               />

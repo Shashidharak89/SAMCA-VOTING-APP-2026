@@ -49,7 +49,7 @@ export default function AdminLogin({ onAdminLogin }) {
     <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-sm border border-primary-100">
         <div className="flex justify-center mb-4">
-          <img src="/samca_logo.jpeg" className="w-16 h-16 rounded-full object-cover shadow-md border-2 border-primary-200" alt="SAMCA Logo" />
+          <img src="/samca.png" className="w-16 h-16 rounded-full object-cover shadow-md border-2 border-primary-200" alt="SAMCA Logo" />
         </div>
         <h2 className="text-2xl font-bold text-text-primary mb-6 text-center">Admin Login</h2>
         <form onSubmit={handleSubmit} className="space-y-5">

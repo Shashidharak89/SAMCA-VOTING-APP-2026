@@ -59,7 +59,7 @@ export default function ViewCandidates() {
 			<div className="max-w-6xl mx-auto">
 				<div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-primary-100">
 					<div className="bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 text-white p-8 flex flex-col items-center">
-						<img src="/samca.png" className="w-20 h-20 rounded-full object-cover shadow-lg border-2 border-white/30 mb-3" alt="SAMCA Logo" />
+						<img src="/favicon.png" className="w-20 h-20 rounded-full object-cover shadow-lg border-2 border-white/30 mb-3" alt="SAMCA Logo" />
 						<h2 className="text-3xl text-white font-extrabold text-center">Candidate List</h2>
 						<p className="text-center mt-2 text-primary-200 text-sm">SAMCA Election 2026</p>
 					</div>

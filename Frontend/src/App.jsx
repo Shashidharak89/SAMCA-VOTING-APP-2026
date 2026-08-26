@@ -218,7 +218,7 @@ function App() {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="flex items-center space-x-3 mb-4 md:mb-0">
                 <div className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden border border-white/30 shadow-sm">
-                  <img src="/samca.png" className="w-full h-full object-cover" alt="SAMCA Logo" />
+                  <img src="/favicon.png" className="w-full h-full object-cover" alt="SAMCA Logo" />
                 </div>
                 <span className="font-semibold">SAMCA Election Portal</span>
               </div>

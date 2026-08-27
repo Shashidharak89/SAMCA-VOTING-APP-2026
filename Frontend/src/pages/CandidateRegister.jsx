@@ -48,9 +48,9 @@ export default function CandidateRegister() {
     e.preventDefault();
     if (!form.position) return setMessage("Please select a position");
     if (!form.usn.trim()) return setMessage("Please enter USN");
-    const emailRegex = /^nu26mca(00[1-9]|0[1-9]\d|1\d\d|200)@nmamit\.in$/i;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(form.email.trim().toLowerCase())) {
-      return setMessage("Please enter a valid college email ID");
+      return setMessage("Please enter a valid email address");
     }
     setMessage("");
     setSubmitting(true);
@@ -112,7 +112,7 @@ export default function CandidateRegister() {
                 type="email"
                 value={form.email}
                 onChange={handleChange}
-                placeholder="Enter college email"
+                placeholder="Enter email address"
                 required
                 className="input-field mt-1"
               />

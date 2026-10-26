@@ -13,8 +13,31 @@ const app = express();
 // BASIC MIDDLEWARE
 // ============================================================
 
-// Enable CORS for cross-origin requests (e.g. Frontend on localhost:5173)
-app.use(cors());
+// Enable CORS for cross-origin requests
+const allowedOrigins = [
+  "https://samca.semaphore2k26.in",
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://localhost:5000",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".semaphore2k26.in") ||
+        origin.includes("localhost") ||
+        origin.includes("127.0.0.1")
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+  })
+);
 
 // File uploads
 app.use(fileUpload);

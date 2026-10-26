@@ -69,18 +69,46 @@ exports.handler = async (event, context) => {
       context
     );
 
+    // If AWS Lambda Function URL is handling CORS, returning Access-Control-* headers
+    // from Express causes AWS to combine them with its own headers, producing '*, *'
+    // which browsers reject.
+    // Strip Access-Control-* headers so AWS Lambda Function URL delivers clean headers.
+    const shouldStripCors = process.env.LAMBDA_HANDLE_CORS !== "true";
+    if (shouldStripCors && response) {
+      if (response.headers) {
+        for (const key of Object.keys(response.headers)) {
+          if (key.toLowerCase().startsWith("access-control-")) {
+            delete response.headers[key];
+          }
+        }
+      }
+      if (response.multiValueHeaders) {
+        for (const key of Object.keys(response.multiValueHeaders)) {
+          if (key.toLowerCase().startsWith("access-control-")) {
+            delete response.multiValueHeaders[key];
+          }
+        }
+      }
+    }
+
     return response;
   } catch (err) {
     console.error("[Lambda Handler Error]:", err);
 
+    const errorHeaders = {
+      "Content-Type": "application/json",
+    };
+
+    // Only attach CORS headers if Lambda itself is designated to manage CORS
+    if (process.env.LAMBDA_HANDLE_CORS === "true") {
+      errorHeaders["Access-Control-Allow-Origin"] = "*";
+      errorHeaders["Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-admin-password";
+      errorHeaders["Access-Control-Allow-Methods"] = "OPTIONS,GET,POST,PUT,DELETE,PATCH";
+    }
+
     return {
       statusCode: 500,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-admin-password",
-        "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT,DELETE,PATCH",
-      },
+      headers: errorHeaders,
       body: JSON.stringify({
         message: "Internal Server Error",
         error: err.message,

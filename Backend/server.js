@@ -59,6 +59,11 @@ async function connectToDatabase() {
     return;
   }
 
+  // If connection was closed/disconnected, reset stale promise to allow reconnecting
+  if (mongoose.connection.readyState === 0) {
+    mongoConnectionPromise = null;
+  }
+
   // Connection currently being established
   if (mongoose.connection.readyState === 2) {
     if (mongoConnectionPromise) {
@@ -237,6 +242,7 @@ mongoose.connection.on("error", (err) => {
 });
 
 mongoose.connection.on("disconnected", () => {
+  mongoConnectionPromise = null;
   if (mongoose.connection.readyState === 0) {
     console.warn("[mongoose] MongoDB disconnected");
   }

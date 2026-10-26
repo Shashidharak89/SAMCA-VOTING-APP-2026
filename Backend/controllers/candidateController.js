@@ -1,4 +1,5 @@
 
+const fs = require('fs');
 const Candidate = require('../models/Candidate');
 const Settings = require('../models/Settings');
 const cloudinary = require('../config/cloudinary');
@@ -25,11 +26,19 @@ exports.registerCandidate = async (req, res) => {
     if (req.files && req.files.photo) {
       // Upload file to Cloudinary
       const file = req.files.photo;
-      const uploadRes = await cloudinary.uploader.upload(file.tempFilePath, {
-        folder: 'samca_candidates',
-        resource_type: 'image',
-      });
-      photoUrl = uploadRes.secure_url;
+      try {
+        const uploadRes = await cloudinary.uploader.upload(file.tempFilePath, {
+          folder: 'samca_candidates',
+          resource_type: 'image',
+        });
+        photoUrl = uploadRes.secure_url;
+      } finally {
+        if (file.tempFilePath && fs.existsSync(file.tempFilePath)) {
+          fs.unlink(file.tempFilePath, (err) => {
+            if (err) console.warn('[candidateController] Failed to remove temp file:', err.message);
+          });
+        }
+      }
     }
 
   const candidate = await Candidate.create({ name, usn: usnNorm, email, position, phone, photoUrl });
